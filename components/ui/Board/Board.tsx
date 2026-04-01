@@ -2,6 +2,7 @@ import * as Haptics from "expo-haptics";
 import { ReactElement, useState } from "react";
 import { Pressable, Text, View } from "react-native";
 import { KeyBoardNumbers } from "../KeyBoradNumbers/KeyBoardNumbers";
+import { Timer } from "../Timer/Timer";
 import useErrorCounterStore from "./store/errorCounterStore";
 import useGameStore from "./store/gameStore";
 import useSelectedDigit from "./store/selectedDigit";
@@ -42,7 +43,7 @@ export default function Board(): ReactElement {
   } | null>(null);
 
   const [gameIsLost, setGameIsLost] = useState<boolean>();
-  const { errorCounter, increaseErrorConter } = useErrorCounterStore();
+  const { errorCounter, increaseErrorConter, resetErrorCounter } = useErrorCounterStore();
 
   const { selectedDigit, setSelectedDigit } = useSelectedDigit();
 
@@ -78,7 +79,7 @@ export default function Board(): ReactElement {
       setWrongCell({ row, col, digit });
       setTimeout(() => setWrongCell(null), 1000);
       increaseErrorConter();
-      if (errorCounter >= 3) {
+      if (errorCounter + 1 >= 3) {
         setGameIsLost(true);
         setIsGameOver();
       }
@@ -88,8 +89,8 @@ export default function Board(): ReactElement {
   return (
     <>
       <View className="mx-auto my-6 flex-row gap-2">
-        <Text>errors: {errorCounter}</Text>
-        <Text>errors: {errorCounter}</Text>
+        <Text className="text-base">errors: {errorCounter}</Text>
+        <Timer />
       </View>
       <View className="w-fit border mx-auto rounded-md">
         {grid.map((row, rowIndex) => (

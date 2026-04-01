@@ -1,4 +1,5 @@
 import Board from "@/components/ui/Board/Board";
+import useErrorCounterStore from "@/components/ui/Board/store/errorCounterStore";
 import useGameStore from "@/components/ui/Board/store/gameStore";
 import { useState } from "react";
 import {
@@ -13,10 +14,12 @@ const complexityLevels = ["Easy", "Medium", "Hard"] as const;
 
 export default function HomeScreen() {
   const { newGame } = useGameStore();
+  const { resetErrorCounter } = useErrorCounterStore();
   const [isOpen, setIsOpen] = useState(false);
 
   const handleSelect = (level: (typeof complexityLevels)[number]) => {
     newGame({ complexity: level });
+    resetErrorCounter();
     setIsOpen(false);
   };
 

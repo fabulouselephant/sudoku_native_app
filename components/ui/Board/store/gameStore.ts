@@ -13,6 +13,9 @@ interface GameState {
   setUserInput: (key: string, digit: number, colorClass: string) => void;
   setIsGameOver: () => void;
   isGameOver: boolean;
+  timeSpent: number;
+  setTimeSpent: (seconds: number) => void;
+  incrementTime: () => void;
 }
 
 const useGameStore = create<GameState>()(
@@ -22,12 +25,16 @@ const useGameStore = create<GameState>()(
       userInputs: {},
       userColors: {},
       isGameOver: false,
+      timeSpent: 0,
+      setTimeSpent: (seconds) => set({ timeSpent: seconds }),
+      incrementTime: () => set((state) => ({ timeSpent: state.timeSpent + 1 })),
       newGame: (complexity) =>
         set({
           ...createBoard(complexity),
           userInputs: {},
           userColors: {},
           isGameOver: false,
+          timeSpent: 0,
         }),
       setUserInput: (key, digit, colorClass) =>
         set((state) => ({

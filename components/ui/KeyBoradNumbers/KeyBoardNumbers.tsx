@@ -22,7 +22,7 @@ export const KeyBoardNumbers = ({
   };
 
   return (
-    <View className="flex-row justify-between mx-auto mt-10">
+    <View className="flex-row gap-1 mx-auto mt-10">
       {keyBoardArray.map((num: number) => {
         const allSet = checkAllDigitsAreSet(grid, num);
         return (
@@ -33,9 +33,9 @@ export const KeyBoardNumbers = ({
             onPress={() => handleNumberClick(num)}
           >
             <View
-              className={`w-10 h-10 items-center justify-center border-gray-100`}
+              className={`w-10 h-10 items-center justify-center border border-gray-300 rounded`}
             >
-              <Text className={allSet ? "text-gray-300" : "text-black"}>
+              <Text className={`${allSet ? "text-gray-300" : "text-black"}`}>
                 {num}
               </Text>
             </View>
