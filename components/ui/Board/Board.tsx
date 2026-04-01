@@ -44,7 +44,7 @@ export default function Board(): ReactElement {
   const [gameIsLost, setGameIsLost] = useState<boolean>();
   const { errorCounter, increaseErrorConter } = useErrorCounterStore();
 
-  const { setSelectedDigit } = useSelectedDigit();
+  const { selectedDigit, setSelectedDigit } = useSelectedDigit();
 
   const grid = Array.from({ length: 9 }, (_, row) =>
     Array.from({ length: 9 }, (_, col) => {
@@ -57,7 +57,10 @@ export default function Board(): ReactElement {
 
   const onCellSelect = (rowIndex: number, colIndex: number) => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    setSelectedCell({ row: rowIndex, col: colIndex });
+    setSelectedCell({
+      row: rowIndex,
+      col: colIndex,
+    });
     const selectedDigit = grid[rowIndex][colIndex];
     setSelectedDigit(selectedDigit !== 0 ? selectedDigit : 0);
   };
@@ -96,6 +99,8 @@ export default function Board(): ReactElement {
               const isSelected =
                 selectedCell?.row === rowIndex &&
                 selectedCell?.col === colIndex;
+              const isHighlighted =
+                selectedDigit !== 0 && selectedDigit === cellValue;
               const colorClass = userColors?.[cellKey] || "";
               return (
                 <Pressable
@@ -108,7 +113,7 @@ export default function Board(): ReactElement {
                     ${colIndex % 3 === 2 && colIndex !== 8 ? "border-b-black" : "border-r-gray-300"}
                     ${rowIndex % 3 === 2 && rowIndex !== 8 ? "border-b-black" : "border-b-gray-300"}
                     ${wrongCell?.row === rowIndex && wrongCell?.col === colIndex ? "text-red-500 bg-red-100" : ""}
-                    ${isSelected ? "bg-blue-100" : ""}
+                    ${isSelected || isHighlighted ? "bg-blue-100" : ""}
                     ${colorClass}`}
                 >
                   <Text

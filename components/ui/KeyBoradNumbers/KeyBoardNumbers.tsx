@@ -32,7 +32,9 @@ export const KeyBoardNumbers = ({
             key={num}
             onPress={() => handleNumberClick(num)}
           >
-            <View className={`w-10 h-10 items-center justify-center`}>
+            <View
+              className={`w-10 h-10 items-center justify-center border-gray-100`}
+            >
               <Text className={allSet ? "text-gray-300" : "text-black"}>
                 {num}
               </Text>
